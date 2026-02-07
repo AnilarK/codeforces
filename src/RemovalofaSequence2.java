@@ -2,36 +2,23 @@ import java.util.*;
 
 public class RemovalofaSequence2 {
 
-    public static boolean check(long p, long x,long y,long k){
+    public static boolean check(long n, long x,long y,long k){
 
-//        for(long i=0;i<x;){
-//            long num = n/y , p = num*y - 1L;
-//            if(num==0L) { break;}
-//            long times = (n-p-1)/num + 1;
-//
-//            if(i+times >= x){
-//                n = n - (x-i)*num;
-//            } else{
-//                n = n - times*num;
-//            }
-//            i+=times;
-//            if(n<k) return false;
-//        }
-//        return n>=k;
+        for(long i=0;i<x;){
+            long num = n/y , p = num*y - 1L;
+            if(num==0L) { break;}
+            long times = (n-p-1)/num + 1;
 
-        for (long i = 0; i < x;){
-            long cur_value = p / y;
-            if (cur_value == 0){
-                break;
+            if(i+times >= x){
+                n = n - (x-i)*num;
+            } else{
+                n = n - times*num;
             }
-            long where_cur_value_changes = cur_value * y - 1L;
-            long actions_in_group = (p - where_cur_value_changes + cur_value - 1L) / cur_value;
-            actions_in_group = Math.min(x - i, actions_in_group);
-            p -= actions_in_group * cur_value;
-            i += actions_in_group;
+            i+=times;
+            if(n<k) return false;
         }
+        return n>=k;
 
-        return p>=k;
     }
 
     public static void solve(Scanner sc){
