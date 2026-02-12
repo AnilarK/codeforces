@@ -4,26 +4,9 @@ import java.util.*;
 
 public class TheRoboticRush {
 
-
-//    public static int upper_bound(int num,List<Integer> a){
-//        if(a.isEmpty()) return -1;
-//        int lo = 0, hi = a.size()-1;
-//        while(hi-lo>1){
-//            int mid = (hi+lo)/2;
-//            if(a.get(mid)<=num){lo=mid;}
-//            else{hi=mid;}
-//        }
-//        if(a.get(lo)>num) return lo;
-//        if(a.get(hi)>num) return hi;
-//
-//        if(a.get(hi)<=num) return a.size();
-//        return -1;
-//    }
-
     public static int lower_bound(int num,List<Integer> a){
-        if(a.isEmpty()) return -1;
-        int lo = 0, hi = a.size()-1;
-        while(hi-lo>1){
+        int lo = 0, hi = a.size();
+        while(lo<hi){
             int mid = (hi+lo)/2;
             if(a.get(mid)<=num){lo=mid;}
             else{hi=mid;}
