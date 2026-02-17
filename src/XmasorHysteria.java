@@ -56,7 +56,13 @@ public class XmasorHysteria {
         n--;
         List<List<Integer>> ans = new ArrayList<>();
         for(int i=0;i<n;i++){
-            if(left/2 == m){
+            if(left>=m && x.get(n).first <= x.get(n-1).first){
+                ans.add(new ArrayList<>(Arrays.asList(x.get(n).second + 1,x.get(n-1).second + 1 )));
+                n-=2;
+                left-=2;
+                m-=2;
+                i--;
+            } else if(left/2 == m){
                 ans.add(new ArrayList<>(Arrays.asList(x.get(n).second + 1,x.get(i).second + 1 )));
                 n--;
                 left-=2; m--;
