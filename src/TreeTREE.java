@@ -4,15 +4,15 @@ import java.util.*;
 public class TreeTREE {
 
     public static long dfs(int i,int par,int k,List<Long> x,List<Long>ans,List<List<Integer>> a){
-        long beneath = 0 , n= ans.size();
+        long beneath = 0 , n= (long)ans.size();
         List<Long> p = new ArrayList<>();
         for(int j=0;j<a.get(i).size();j++){
             if(a.get(i).get(j)==par) continue;
-            long beneathLocal = 1 + dfs(a.get(i).get(j),i,k,x,ans,a);
+            long beneathLocal = 1L + dfs(a.get(i).get(j),i,k,x,ans,a);
             p.add(beneathLocal);
             beneath += beneathLocal;
         }
-        p.add(n - beneath -1);
+        p.add(n - beneath -1L);
 
         long ansForI = 1;
 
@@ -50,7 +50,7 @@ public class TreeTREE {
 
 //        System.out.println(x);
 //        System.out.println(ans);
-        int res = 0;
+        long res = 0;
         for(int i=0;i<n;i++){
             res+=ans.get(i);
         }
