@@ -4,41 +4,69 @@ import java.util.*;
 
 public class khbaLovesToSleep {
 
-    public static long sumArray(int i,int j,List<Long> a){
-        if(i==0 && j==0) return 0;
-        if(i==0){
-            return a.get(j-1);
-        } else if (j==a.size()) {
-            return a.getLast() - a.get(i-1);
-        } else{
-            return a.get(j-1) - a.get(i-1);
-        }
-    }
+    public static boolean check(long num, long k, long d,List<Long> a){
+        long possTel = 0;
 
-    public static boolean check(long num,long left,long right){
-        if(num-left <= right-num) return true;
-        return false;
-    }
-
-    public static int find(long left,long right,List<Long> a){
-        int lo = 0, hi = a.size() -1;
-        while(hi-lo>1){
-            int mid = (hi+lo)/2;
-            if(check(a.get(mid),left,right)){
-                lo = mid;
-            } else{
-                hi = mid;
+        for(int i=0;i<a.size();i++){
+            long diff=0;
+            if(i==0){
+                diff = a.get(i);
+                possTel += Math.max(0L,diff-num +1L);
+            }
+            if(i==a.size()-1){
+                diff = d - a.get(i);
+                possTel += Math.max(0L,diff-num +1L);
+            }
+            if(i>0) {
+                diff = a.get(i) - a.get(i - 1);
+                possTel += Math.max(0L, diff - num - num + 1L);
             }
         }
-
-        if(check(a.get(hi),left,right)){return hi+1;}
-        if(check(a.get(lo),left,right)){return lo+1;}
-        return 0;
+        return possTel>=k;
     }
 
+    public static void store(List<Long> ans, Set<Long> used, long k, long poss, long i){
+        while(ans.size() < k && poss > 0){
+            if(!used.contains(i)){
+                ans.add(i);
+                used.add(i);
+            }
+            poss--;
+            i++;
+        }
+    }
 
+    public static void print(long num,long k,long d,List<Long> a){
+        List<Long> ans = new ArrayList<>();
+        Set<Long> used = new HashSet<>();
+        for(int i=0;i<a.size();i++){
+            long diff=0;
+            long possTel = 0;
+            if(i==0){
+                diff = a.get(i);
+                possTel = Math.max(0L,diff-num +1L);
+                store(ans,used,k,possTel,0L);
+            }
+            if(i==a.size()-1){
+                diff = d - a.get(i);
+                possTel = Math.max(0L,diff-num +1L);
+                store(ans,used,k,possTel,a.get(i) +num);
+            }
+            if(i>0) {
+                diff = a.get(i) - a.get(i - 1);
+                possTel = Math.max(0L, diff - num - num + 1L);
+                store(ans,used,k,possTel,a.get(i-1) +num);
+            }
+            if(ans.size()==k){break;}
+        }
 
-    public static void solve(Scanner sc){
+        for(Long val :ans){
+            System.out.print(val +" ");
+        }
+        System.out.println();
+    }
+
+    public static void solveCorrect(Scanner sc){
 
         long n = sc.nextInt();
         long k = sc.nextInt();
@@ -48,55 +76,30 @@ public class khbaLovesToSleep {
         for(int i=0;i<n;i++){
             a.add(sc.nextLong());
         }
-
         a.sort(null);
 
-        long left = k-1, right =d+1;
-        long leftAns = k-1, rightAns =d+1;
-        long sum = 0,maxSum =0;
-
-        List<Long> x = new ArrayList<>();
-
-        for(int i=0;i<n;i++){
-            sum += (long) a.get(i);
-            x.add(sum);
-        }
-
-        long sumI = 0;
-        for(int i = 0;i<=k;i++){
-            if(left<0){
-                sumI = (long)n*right - sum;
-            } else if(right>d){
-                sumI = sum -(long) n*left;
+        long lo = 0, hi = d;
+        while(hi - lo > 1){
+            long mid = (hi+lo)/2;
+            if(check(mid,k,d,a)){
+                lo = mid;
             } else {
-                int ind = find(left,right,a);
-                sumI = sumArray(0,ind,x) - (long)ind*left;
-                sumI += (long)(n-ind)*right - sumArray(ind,(int)n,x);
+                hi = mid -1;
             }
-
-            if(sumI>maxSum){
-                maxSum = sumI;
-                leftAns = left;
-                rightAns = right;
-            }
-            left--;
-            right--;
         }
 
-        for(long i=0 ;i<=leftAns;i++){
-            System.out.print(i+" ");
+        if(check(hi,k,d,a)){
+            print(hi,k,d,a);
+        } else {
+            print(lo,k,d,a);
         }
-        for(long i=rightAns ;i<=d;i++){
-            System.out.print(i+" ");
-        }
-        System.out.println();
     }
 
     public static void main(String args[]){
         Scanner sc  = new Scanner(System.in);
         int t = sc.nextInt();
         while(t>0){
-            solve(sc);
+            solveCorrect(sc);
             t--;
         }
     }
