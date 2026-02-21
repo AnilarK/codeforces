@@ -27,14 +27,15 @@ public class BeautifulPalindromes {
             s.remove(a.getLast());
         }
 
+        for(int val : s){
+            System.out.print(val + " ");
+            a.add(val);
+            k--;
+            if(k<=0) break;
+        }
+
         while(k>0){
-            int num = 0;
-            if(!s.isEmpty()){
-                num = s.iterator().next();
-                s.remove(num);
-            } else {
-                num = diff(n,a);
-            }
+            int num = diff(n,a);
             a.add(num);
             System.out.print(num + " ");
             k--;
