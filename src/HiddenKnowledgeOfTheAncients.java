@@ -6,29 +6,30 @@ public class HiddenKnowledgeOfTheAncients {
 
     public int resolve(int i,int j,int l,int r){
         if(i>j) return 0;
-        i = Math.max(i,l);
-        j = Math.min(j,r);
-        return j - i + 1;
+        if(i>r || j<l) return 0;
+        i = Math.min(Math.max(i,l),r);
+        j = Math.max(Math.min(j,r),l);
+        return Math.max(j - i + 1,0);
     }
 
     public void solve(Scanner sc){
-        int n = sc.nextInt();
+        long n = sc.nextInt();
         int k = sc.nextInt();
         int l = sc.nextInt();
         int r = sc.nextInt();
 
-        List<Integer> a = new ArrayList<>();
+        List<Long> a = new ArrayList<>();
         for(int i=0;i<n;i++){
-            a.add(sc.nextInt());
+            a.add(sc.nextLong());
         }
-        Map<Integer,Integer> far = new HashMap<>();
-        Map<Integer,Integer> clo = new HashMap<>();
+        Map<Long,Long> far = new HashMap<>();
+        Map<Long,Long> clo = new HashMap<>();
         int farPnt = 0;
         int cloPnt = 0;
-        int ans = 0;
+        long ans = 0;
         for(int i=0;i<n;i++){
-            far.put(a.get(i),far.getOrDefault(a.get(i),0)+1);
-            clo.put(a.get(i),clo.getOrDefault(a.get(i),0)+1);
+            far.put(a.get(i),far.getOrDefault(a.get(i),0L)+1);
+            clo.put(a.get(i),clo.getOrDefault(a.get(i),0L)+1);
 
             while(farPnt<=i && far.size()>k){
                 far.put(a.get(farPnt),far.get(a.get(farPnt))-1);
@@ -46,7 +47,10 @@ public class HiddenKnowledgeOfTheAncients {
                 cloPnt++;
             }
 
-            ans += resolve(i-cloPnt+2,i-farPnt,l,r);
+            int farLen = i-farPnt +1;
+            int cloLen = i -cloPnt +2;
+
+            ans += resolve(cloLen,farLen,l,r);
         }
         System.out.println(ans);
     }
