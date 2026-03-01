@@ -16,9 +16,21 @@ public class Rabbits {
             }
 
             if(cnt>1){
-                i = j + 1 ;
+                i = j;
             } else if(cnt==1){
-                if(i==0 || i==n-1 || (i<n-2 && s.charAt(i+2)=='0') ){
+                if(i==0 || i==n-1){continue;}
+                else if( (i>1 && s.charAt(i-2)=='0') && (i<n-2 && s.charAt(i+2)=='0') ){
+                    continue;
+                }
+                else if (i<n-2 && s.charAt(i+2)=='0'){
+                    i+=2;
+                    cnt = 0;
+                    while(i<n && s.charAt(i)=='0'){
+                        i++; cnt++;
+                    }
+                    if(cnt==1){
+                        s.setCharAt(i-1,'1');
+                    }
                     continue;
                 } else if( i>1 && s.charAt(i-2)=='0'){
                     s.setCharAt(i,'1');
