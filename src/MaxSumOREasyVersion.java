@@ -5,12 +5,35 @@ import java.util.*;
 public class MaxSumOREasyVersion {
 
     public void solve(Scanner sc){
-        int l = sc.nextInt();
-        int r = sc.nextInt();
+        long l = sc.nextInt();
+        long r = sc.nextInt();
 
-        int n = r - l + 1;
+        long n = r + 1;
+        long k = 1;
+        while(k*2 <= r){
+            k=k*2;
+        }
+        long ans = n*r , val = k*2 - 1;
 
+        Set<Long> s = new HashSet<>();
+        for(long i=0;i<=r;i++){
+            s.add(i);
+        }
 
+        System.out.println(ans);
+        for(int i = 0;i<=r;i++){
+            long p = val - i;
+            long k1 = k;
+            while(!s.contains(p)){
+                if(k1<=p){
+                    p = p -k1;}
+                k1= k1/2;
+            }
+            s.remove(p);
+            System.out.print(p + " ");
+        }
+
+        System.out.println();
 
     }
 
