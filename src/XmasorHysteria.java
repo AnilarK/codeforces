@@ -49,38 +49,43 @@ public class XmasorHysteria {
         }
 
         x.sort((p1, p2) -> Integer.compare(p1.first, p2.first));
-
-//        System.out.println(x);
-
-        int left = n;
-        n--;
         List<List<Integer>> ans = new ArrayList<>();
-        for(int i=0;i<n;i++){
-            if(left>=m && x.get(n).first <= x.get(n-1).first){
-                ans.add(new ArrayList<>(Arrays.asList(x.get(n).second + 1,x.get(n-1).second + 1 )));
-                n-=2;
-                left-=2;
-                m-=2;
-                i--;
-            } else if(left/2 == m){
-                ans.add(new ArrayList<>(Arrays.asList(x.get(n).second + 1,x.get(i).second + 1 )));
-                n--;
-                left-=2; m--;
-            } else {
-                x.get(n).first -= a.get(x.get(i).second);
-                left--; m--;
-                ans.add(new ArrayList<>(Arrays.asList(x.get(i).second + 1,x.get(n).second + 1 )));
+
+        if(m==n){
+            int i = 0;
+            while(x.get(n-1).first > x.get(n-2).first){
+                ans.add(new ArrayList<>(List.of(x.get(i).second+1,x.get(n-1).second+1)));
+                x.get(n-1).first -= x.get(i).first;
+                i++; m--;
             }
 
-           while(n>=0 && x.get(n).first == 0 ){
-               n--;
-               m--;
-               left--;
-           }
-//            System.out.println(x);
+            if(i>n-2){
+                System.out.println("-1");
+                return;
+            } else{m--;}
+
+            for(int k=i+1;k<n;k++){
+                ans.add(new ArrayList<>(List.of(x.get(k).second+1,x.get(k-1).second+1)));
+                m--;
+            }
+
+        } else {
+            int a1 = n-m-1;
+            int i = n-a1-a1-1;
+            for(int k=1;k<=i;k++){
+                ans.add(new ArrayList<>(List.of(x.get(k).second+1,x.get(k-1).second+1)));
+                m--;
+            }
+            i++;
+            int j = n-1;
+
+            while( j>i && m!=n-1 ){
+                ans.add(new ArrayList<>(List.of(x.get(j).second+1,x.get(i).second+1)));
+                j--; i++; m--;
+            }
         }
 
-        if (m!=0){
+        if(m!=0){
             System.out.println("-1");
             return;
         }
