@@ -32,8 +32,9 @@ public class GridCounting {
             invFact[i] = (invFact[i + 1] * (i + 1)) % MOD;
     }
 
-    static long nCp(int n, int r) {
-        if (r < 0 || r > n) return 0;
+    static long nCp(long n1, long r1) {
+        int n = (int)n1 , r = (int)r1;
+        if (r < 0 || r > n || n<0) return 1;
         return (((fact[n] * invFact[r]) % MOD) * invFact[n - r]) % MOD;
     }
 
@@ -54,22 +55,26 @@ public class GridCounting {
 
         sum = 0;
         int last = (n+1)/2;
-        int p = 0;
-        long ans = 1;
+        long p = 0;
+
         for(int i=0;i<last;i++){
             sum += a.get(i);
 
             if(i == last-1 && n%2==1){ p++;}
             else{p+=2;}
 
-            n = n -2;
-
             if(sum<p){
                 System.out.println("0");
                 return;}
-            else if(sum>p){
-                ans = (ans*nCp(n,(int)sum-p))%mo;
-            }
+        }
+
+        long ans = 1;
+        p = 1;
+        if(n%2==0){p++;}
+        sum = 0;
+        for(int i= last-1;i>=0;i--){
+           ans = (ans*nCp((int)p,a.get(i)))%mo;
+           p = p + 2 - a.get(i);
         }
 
         System.out.println(ans);
